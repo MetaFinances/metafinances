@@ -47,7 +47,6 @@ export const NFT_SEARCH_API = 'https://ybrjmu6r60.execute-api.eu-west-2.amazonaw
 export const PEGGEDS_API = 'https://uemu821wp6.execute-api.us-east-1.amazonaws.com/dev/peggeds'
 export const PEGGED_API = 'https://uemu821wp6.execute-api.us-east-1.amazonaws.com/dev/pegged'
 export const PEGGEDCHART_API = 'https://uemu821wp6.execute-api.us-east-1.amazonaws.com/dev/peggedcharts'
-export const PEGGEDPRICES_API = 'https://uemu821wp6.execute-api.us-east-1.amazonaws.com/dev/peggedprices'
 
 export const YIELD_POOLS_API = 'https://1rwmj4tky9.execute-api.eu-central-1.amazonaws.com/poolsEnriched'
 export const YIELD_CHART_API = 'https://1rwmj4tky9.execute-api.eu-central-1.amazonaws.com/chart'
