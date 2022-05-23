@@ -9,7 +9,7 @@ import { AutoRow, RowBetween, RowFlat } from '../Row'
 import { AutoColumn } from '../Column'
 import Filters from '../Filters'
 import { CheckMarks } from '../SettingsModal'
-import { PageWrapper, FullWrapper } from '..'
+import { PageWrapper, ContentWrapper } from '..'
 import Panel from '../Panel'
 import Search from '../Search'
 import NFTCollectionList from '../NFTCollectionList'
@@ -56,11 +56,11 @@ const FiltersRow = styled(RowFlat)`
 `
 const defaultTab = {
   label: 'All',
-  to: '/nfts',
+  to: '/nfts'
 }
 
 const GlobalNFTChart = dynamic(() => import('../GlobalNFTChart'), {
-  ssr: false,
+  ssr: false
 })
 
 const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceData, displayName = 'All' }) => {
@@ -72,17 +72,17 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
 
   const isChain = chainData ? true : false
   const selectedTab = displayName
-  const setSelectedTab = (newSelectedTab) =>
+  const setSelectedTab = newSelectedTab =>
     isChain ? `/nfts/chain/${newSelectedTab}` : `/nfts/marketplace/${newSelectedTab}`
 
   let tabOptions = [
     defaultTab,
     ...(chainData || marketplaceData)
       ?.sort((a, b) => parseInt(b.totalVolumeUSD) - parseInt(a.totalVolumeUSD))
-      ?.map((option) => ({
+      ?.map(option => ({
         label: option.displayName,
-        to: isChain ? setSelectedTab(option.chain) : setSelectedTab(option.marketplace),
-      })),
+        to: isChain ? setSelectedTab(option.chain) : setSelectedTab(option.marketplace)
+      }))
   ]
 
   let shownTotalVolume, shownDailyVolume, shownDailyChange, symbol, unit
@@ -95,7 +95,7 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
       dailyVolumeUSD,
       dailyChange,
       'USD',
-      '$',
+      '$'
     ]
     displayUsd = true
   } else {
@@ -106,7 +106,7 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
       isChain
         ? chainCoingeckoIds[selectedTab]?.symbol
         : chainCoingeckoIds[chainMarketplaceMappings[selectedTab]]?.symbol,
-      '',
+      ''
     ]
   }
 
@@ -116,14 +116,14 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
         totalVolumeUSD - chart[chart.length - 1].volumeUSD,
         chart[chart.length - 2].volumeUSD,
         ((chart[chart.length - 2].volumeUSD - chart[chart.length - 3].volumeUSD) / chart[chart.length - 3].volumeUSD) *
-          100,
+          100
       ]
       chart = chart.slice(0, -1)
     } else if (chart.length >= 3) {
       ;[shownTotalVolume, shownDailyVolume, shownDailyChange] = [
         totalVolume - chart[chart.length - 1].volume,
         chart[chart.length - 2].volume,
-        ((chart[chart.length - 2].volume - chart[chart.length - 3].volume) / chart[chart.length - 3].volume) * 100,
+        ((chart[chart.length - 2].volume - chart[chart.length - 3].volume) / chart[chart.length - 3].volume) * 100
       ]
       chart = chart.slice(0, -1)
     }
@@ -137,7 +137,7 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
             <TYPE.heading>Total Volume</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '4px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#4f8fea'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#6500bf'}>
               {formattedNum(shownTotalVolume, displayUsd)}
             </TYPE.main>
           </RowBetween>
@@ -149,7 +149,7 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
             <TYPE.heading>Daily Volume</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '4px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#fd3c99'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#cc00ff'}>
               {formattedNum(shownDailyVolume, displayUsd)}
             </TYPE.main>
           </RowBetween>
@@ -161,7 +161,7 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
             <TYPE.heading>Change (24h)</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '4px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#46acb7'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#d800e6'}>
               {shownDailyChange?.toFixed(2)}%
             </TYPE.main>
           </RowBetween>
@@ -175,14 +175,14 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
   return (
     <PageWrapper>
       <SEO cardName={displayName} chain={displayName} tvl={tvl} nftPage />
-      <ThemedBackground backgroundColor={transparentize(0.8, '#445ed0')} />
-      <FullWrapper>
+      <ThemedBackground backgroundColor={transparentize(0.8, '#6500bf')} />
+      <ContentWrapper>
         <AutoColumn gap="24px" style={{ paddingBottom: '24px' }}>
           <Search />
           <Panel background={true} style={{ textAlign: 'center', marginBottom: '1rem', marginTop: '-1rem' }}>
-            <TYPE.main fontWeight={400}>
-              Data is currently incorrect and we are fixing it, please don't use it
-            </TYPE.main>
+      <TYPE.main fontWeight={400}>
+        Data is currently incorrect and is under maintainance, please don't use it
+      </TYPE.main>
           </Panel>
           <CheckMarks type="nfts" />
         </AutoColumn>
@@ -210,7 +210,7 @@ const NFTDashboard = ({ statistics, collections, chart, chainData, marketplaceDa
         <Panel style={{ marginTop: '6px', padding: below800 && '1rem 0 0 0 ' }}>
           <NFTCollectionList collections={collections} displayUsd={displayUsd} />
         </Panel>
-      </FullWrapper>
+      </ContentWrapper>
     </PageWrapper>
   )
 }

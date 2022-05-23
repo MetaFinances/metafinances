@@ -426,10 +426,10 @@ export function Name({
   return (
     <Index {...props} style={{ left: leftSpace }}>
       {bookmark && (
-        <SaveButton readableProtocolName={value} style={{ paddingRight: rowType === 'pinned' ? '1ch' : 0 }} />
+        <SaveButton readableProtocolName={value} style={{ paddingRight: rowType === 'pinned' ? '22px' : 0 }} />
       )}
       {rowType === 'accordion' && (showRows ? <ChevronDown size={16} /> : <ChevronRight size={16} />)}
-      <span>{rowType !== 'pinned' && index}</span>
+      {rowType !== 'pinned' && index && <span>{index}</span>}
       <TokenLogo logo={iconUrl} />
       {rowType === 'accordion' ? <span>{name}</span> : <CustomLink href={tokenUrl}>{name}</CustomLink>}
     </Index>
@@ -451,6 +451,7 @@ export function NamePegged({
   value,
   symbol = '',
   index,
+  bookmark,
   rowType = 'default',
   showRows,
   ...props

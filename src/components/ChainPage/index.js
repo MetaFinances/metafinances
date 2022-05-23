@@ -7,7 +7,7 @@ import { RowBetween, RowFixed } from '../Row'
 import { AutoColumn } from '../Column'
 import Search from '../Search'
 import Panel from '../Panel'
-import { PageWrapper, FullWrapper, ProtocolsTable } from '..'
+import { PageWrapper, ContentWrapper, ProtocolsTable } from '..'
 import Filters from '../Filters'
 import { AllTvlOptions } from '../SettingsModal'
 
@@ -226,7 +226,7 @@ function GlobalPage({ selectedChain = 'All', chainsSet, filteredProtocols, chart
             <TYPE.heading>Total Value Locked (USD)</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#4f8fea'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#6500bf'}>
               {tvl}
             </TYPE.main>
             <DownloadButton
@@ -249,7 +249,7 @@ function GlobalPage({ selectedChain = 'All', chainsSet, filteredProtocols, chart
             <TYPE.heading>Change (24h)</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#fd3c99'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#cc00ff'}>
               {percentChange || 0}%
             </TYPE.main>
           </RowBetween>
@@ -261,7 +261,7 @@ function GlobalPage({ selectedChain = 'All', chainsSet, filteredProtocols, chart
             <TYPE.heading>{topToken.name} Dominance</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#46acb7'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#d800e6'}>
               {dominance}%
             </TYPE.main>
           </RowBetween>
@@ -273,21 +273,19 @@ function GlobalPage({ selectedChain = 'All', chainsSet, filteredProtocols, chart
   return (
     <PageWrapper>
       <SEO cardName={selectedChain} chain={selectedChain} tvl={tvl} volumeChange={volumeChange} />
-      <ThemedBackground backgroundColor={transparentize(0.8, '#445ed0')} />
-      <FullWrapper>
+      <ThemedBackground backgroundColor={transparentize(0.8, '#6500bf')} />
+      <ContentWrapper>
         <AutoColumn gap="24px">
           <Search />
-          <div>
-            <Panel background={true} style={{ textAlign: 'center' }}>
-              <TYPE.main fontWeight={400}>
-                We've launched a multichain APY dashboard. Check it out{' '}
-                <BasicLink style={{ textDecoration: 'underline' }} href="https://defillama.com/yields">
-                  here
-                </BasicLink>
-                !
-              </TYPE.main>
-            </Panel>
-          </div>
+          <Panel background={true} style={{ textAlign: 'center' }}>
+            <TYPE.main fontWeight={400}>
+              We've launched a multichain APY dashboard. Check it out{' '}
+              <BasicLink style={{ textDecoration: 'underline' }} href="https://metafidashboard.ga/yields">
+                here
+              </BasicLink>
+              !
+            </TYPE.main>
+          </Panel>
         </AutoColumn>
         <div>
           <BreakpointPanels>
@@ -338,7 +336,7 @@ function GlobalPage({ selectedChain = 'All', chainsSet, filteredProtocols, chart
         </ListOptions>
 
         <ProtocolsTable data={protocolTotals} columns={columns} />
-      </FullWrapper>
+      </ContentWrapper>
     </PageWrapper>
   )
 }

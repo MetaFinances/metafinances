@@ -70,7 +70,7 @@ export default function Warning({ type, show, setShow, address }) {
               <Link
                 fontWeight={500}
                 lineHeight={'145.23%'}
-                color={'#2172E5'}
+                color={'#6500bf'}
                 href={'https://etherscan.io/address/' + address}
                 target="_blank"
               >
@@ -90,7 +90,7 @@ export default function Warning({ type, show, setShow, address }) {
               <Link
                 fontWeight={500}
                 lineHeight={'145.23%'}
-                color={'#2172E5'}
+                color={'#6500bf'}
                 href={'https://etherscan.io/address/' + address}
                 target="_blank"
               >

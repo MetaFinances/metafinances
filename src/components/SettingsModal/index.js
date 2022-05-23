@@ -13,6 +13,7 @@ import {
   useMillionDollarManager,
   useTvlToggles,
   useGetExtraTvlEnabled,
+  usePeggedToggles,
   useGetExtraPeggedEnabled,
   STAKING,
   POOL2,
@@ -292,7 +293,7 @@ export function CheckMarks({ type = 'defi', style = null }) {
   }
 }
 
-export const extraTvlOptions = [
+const extraTvlOptions = [
   {
     name: 'Staking',
     key: STAKING,
@@ -315,7 +316,7 @@ export const extraTvlOptions = [
   },
 ]
 
-export const extraPeggedOptions = [
+const extraPeggedOptions = [
   {
     name: 'Unreleased',
     key: UNRELEASED,
@@ -425,7 +426,7 @@ export const AllTvlOptions = ({ style }) => {
 }
 
 export const AllPeggedOptions = ({ style }) => {
-  const peggedToggles = useTvlToggles()
+  const peggedToggles = usePeggedToggles()
   const extraPeggedEnabled = useGetExtraPeggedEnabled()
   return (
     <>

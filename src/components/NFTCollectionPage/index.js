@@ -16,7 +16,7 @@ import { AutoRow, RowBetween } from '../../components/Row'
 import Column from '../../components/Column'
 import HeadHelp from '../../components/HeadHelp'
 import CopyHelper from '../../components/Copy'
-import { PageWrapper, FullWrapper } from '../../components'
+import { PageWrapper, ContentWrapper } from '../../components'
 import Panel from '../../components/Panel'
 import { TYPE, ThemedBackground } from '../../Theme'
 import { useProtocolColor } from 'hooks'
@@ -169,13 +169,13 @@ function NFTCollectionPage({ collection, chart, statistics }) {
   }
 
   const marketCapSection = (
-    <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#4f8fea'}>
+    <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#6500bf'}>
       {shownMarketCap ? formattedNum(shownMarketCap, displayUsd) : '-'}
     </TYPE.main>
   )
 
   const totalVolumeSection = (
-    <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#fd3c99'}>
+    <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#cc00ff'}>
       {formattedNum(shownTotalVolume, displayUsd)}
     </TYPE.main>
   )
@@ -184,7 +184,7 @@ function NFTCollectionPage({ collection, chart, statistics }) {
     <PageWrapper>
       <SEO cardName={name} logo={logo} nftPage />
       <ThemedBackground backgroundColor={transparentize(0.6, backgroundColor)} />
-      <FullWrapper>
+      <ContentWrapper>
         <RowBetween flexWrap="wrap">
           <AutoRow align="flex-end" style={{ width: 'fit-content' }}>
             <TYPE.body>
@@ -276,7 +276,7 @@ function NFTCollectionPage({ collection, chart, statistics }) {
             </AutoRow>
           </Panel>
         </DashboardWrapper>
-      </FullWrapper>
+      </ContentWrapper>
     </PageWrapper>
   )
 }

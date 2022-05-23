@@ -34,8 +34,8 @@ export default function AppSwitch() {
         handleDiameter={28}
         offColor="#000"
         onColor="#000"
-        offHandleColor="#445ed0"
-        onHandleColor="#445ed0"
+        offHandleColor="#6500bf"
+        onHandleColor="#6500bf"
         height={40}
         width={160}
         borderRadius={6}

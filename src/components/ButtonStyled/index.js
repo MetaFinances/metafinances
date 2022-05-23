@@ -77,6 +77,12 @@ export const ButtonLight = styled(Base)`
     background-color: ${({ color, theme }) =>
       color ? transparentize(0.8, color) : transparentize(0.8, theme.primary1)};
   }
+
+  :focus {
+    outline: 1px solid red;
+    outline-offset: 2px;
+    outline-color: ${({ color, theme }) => (color ? transparentize(0.1, color) : transparentize(0.1, theme.primary1))};
+  }
 `
 
 export function ButtonDropdown({ disabled = false, children, open, ...rest }) {
@@ -109,6 +115,12 @@ export const ButtonDark = styled(Base)`
   :focus {
     background-color: ${({ color, theme }) => (color ? darken(0.1, color) : darken(0.1, theme.primary1))};
   }
+
+  :focus-visible {
+    outline: 1px solid red;
+    outline-offset: 2px;
+    outline-color: ${({ color, theme }) => (color ? transparentize(0.1, color) : transparentize(0.1, theme.primary1))};
+  }
 `
 
 export const ButtonFaded = styled(Base)`
@@ -122,9 +134,9 @@ export const ButtonFaded = styled(Base)`
   }
 `
 
-export function ButtonPlusDull({ disabled = false, children, ...rest }) {
+export function ButtonPlusDull({ disabled, children, ...rest }) {
   return (
-    <Dull disabled={disabled} {...rest}>
+    <Dull {...rest}>
       <ContentWrapper>
         <Plus size={16} />
         <div style={{ display: 'flex', alignItems: 'center' }}>{children}</div>

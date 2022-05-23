@@ -45,10 +45,6 @@ export const FiltersWrapper = styled.nav`
   align-items: center;
   gap: 20px;
   overflow: hidden;
-
-  & > ul {
-    padding: 4px 0;
-  }
 `
 
 const Filters = ({ filterOptions = [], activeLabel, ...props }: FiltersProps) => {
@@ -58,28 +54,29 @@ const Filters = ({ filterOptions = [], activeLabel, ...props }: FiltersProps) =>
 
   const calcFiltersToRender = useCallback(() => {
     if (typeof document !== 'undefined') {
-      const priorityNav = document.querySelector('#priority-nav')
-
-      const wrapper = priorityNav?.getBoundingClientRect()
+      // wrapper element of filters
+      const wrapper = document.querySelector('#priority-nav')
+      const wrapperSize = wrapper?.getBoundingClientRect()
 
       let indexToCutFrom = null
 
-      if (!priorityNav) return null
+      if (!wrapper) return null
 
-      if (priorityNav.childNodes?.length > 2 && wrapper?.width <= 600) {
+      wrapper.hasChildNodes &&
+        wrapper.childNodes.forEach((_, index) => {
+          if (indexToCutFrom !== null) return
+
+          const child = document.querySelector(`#priority-nav-el-${index}`)
+          const sizes = child.getBoundingClientRect()
+
+          if (sizes.top - wrapperSize.top > wrapperSize.height) {
+            indexToCutFrom = index
+          }
+        })
+
+      if (indexToCutFrom < 5 && wrapperSize?.width <= 600) {
         return 'renderMenu'
       }
-
-      priorityNav.childNodes?.forEach((_, index) => {
-        if (indexToCutFrom !== null) return
-
-        const link = document.querySelector(`#priority-nav-el-${index}`)
-        const linkSize = link.getBoundingClientRect()
-
-        if (linkSize.top - wrapper.top > wrapper.height || linkSize.left + GAP * 2 > wrapper.right - 150) {
-          indexToCutFrom = index
-        }
-      })
 
       return indexToCutFrom
     }
@@ -115,7 +112,7 @@ const Filters = ({ filterOptions = [], activeLabel, ...props }: FiltersProps) =>
 
     const filters = lastIndexToRender ? filterOptions.slice(0, lastIndexToRender - 1) : filterOptions
 
-    const menuFilters = lastIndexToRender ? filterOptions.slice(filters.length) : null
+    const menuFilters = lastIndexToRender ? filterOptions.slice(filters.length - 1) : null
 
     return { filters, menuFilters }
   }, [filterOptions, lastIndexToRender])
@@ -131,11 +128,9 @@ const Filters = ({ filterOptions = [], activeLabel, ...props }: FiltersProps) =>
       )}
       {menuFilters && (
         <DropdownMenu>
-          <DropdownMenuTrigger style={{ width: '8rem', margin: '4px', marginLeft: !filters ? 'auto' : '4px' }}>
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {menuFilters.find((label) => label.label === activeLabel) ? activeLabel : 'Others'}
-            </span>
-            <ChevronDown size={16} style={{ flexShrink: '0' }} />
+          <DropdownMenuTrigger style={{ minWidth: '8rem', margin: '4px', marginLeft: !filters ? 'auto' : '4px' }}>
+            <span>{menuFilters.find((label) => label.label === activeLabel) ? activeLabel : 'Others'}</span>
+            <ChevronDown size={16} />
           </DropdownMenuTrigger>
           <DropdownMenuContent sideOffset={5}>
             <DropdownMenuLabel>Others</DropdownMenuLabel>

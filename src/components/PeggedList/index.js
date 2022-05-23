@@ -13,6 +13,7 @@ import {
   formattedNum,
   formattedPegggedPrice,
   getPercentChange,
+  getPrevCirculatingFromChart,
   getPeggedDominance,
 } from 'utils'
 import { useCalcCirculating, useCalcGroupExtraPeggedByDay } from 'hooks/data'
@@ -20,6 +21,7 @@ import { useLg } from 'hooks/useBreakpoints'
 import { TYPE } from 'Theme'
 import Table, { columnsToShow, isOfTypePeggedCategory } from 'components/Table'
 import { PeggedChainPieChart, PeggedChainDominanceChart } from 'components/Charts'
+import { categoryToPegType } from 'utils/dataApi'
 import Filters, { FiltersWrapper } from 'components/Filters'
 
 export const BreakpointPanels = styled.div`
@@ -88,9 +90,9 @@ function AllPeggedsPage({
     },
     ...columnsToShow('1dChange', '7dChange', '1mChange'),
     {
-      header: 'Market Cap',
-      accessor: 'mcap',
-      Cell: ({ value }) => <>{value && formattedNum(value, true)}</>,
+      header: 'Total Circulating',
+      accessor: 'circulating',
+      Cell: ({ value }) => <>{value && formattedNum(value)}</>,
     },
   ]
 
@@ -105,7 +107,7 @@ function AllPeggedsPage({
   const peggedTotals = useCalcCirculating(filteredPeggedAssets, defaultSortingColumn)
 
   const chainsCirculatingValues = useMemo(() => {
-    const data = peggedTotals.map((chain) => ({ name: chain.symbol, value: chain.mcap }))
+    const data = peggedTotals.map((chain) => ({ name: chain.name, value: chain.circulating }))
 
     const otherCirculating = data.slice(10).reduce((total, entry) => {
       return (total += entry.value)
@@ -118,43 +120,45 @@ function AllPeggedsPage({
   }, [peggedTotals])
 
   const chainColor = useMemo(
-    () => Object.fromEntries([...peggedTotals, 'Others'].map((peggedAsset) => [peggedAsset.symbol, getRandomColor()])),
+    () => Object.fromEntries([...peggedTotals, 'Others'].map((peggedAsset) => [peggedAsset.name, getRandomColor()])),
     [peggedTotals]
   )
 
-  const peggedAssetNames = useMemo(() => peggedTotals.map((peggedAsset) => peggedAsset.symbol), [peggedTotals])
+  const peggedAssetNames = useMemo(() => peggedTotals.map((peggedAsset) => peggedAsset.name), [peggedTotals])
 
   const { data: stackedData, daySum } = useCalcGroupExtraPeggedByDay(stackedDataset)
 
   if (!title) {
-    title = `Market Cap`
+    title = `Circulating`
     if (category) {
-      title = `${capitalizeFirstLetter(category)} Market Cap`
+      title = `${capitalizeFirstLetter(category)} Circulating`
     }
     if (selectedChain !== 'All') {
-      title = `${capitalizeFirstLetter(selectedChain)} ${capitalizeFirstLetter(category)} Market Cap`
+      title = `${capitalizeFirstLetter(selectedChain)} ${capitalizeFirstLetter(category)} Circulating`
     }
   }
 
-  const { percentChange, totalMcapCurrent } = useMemo(() => {
-    const chartCurrent = chartData[chartData.length - 1] ?? null
-    const chartPrevDay = chartData[chartData.length - 2] ?? null
-    const totalMcapCurrent = chartCurrent?.mcap
-    const totalMcapPrevDay = chartPrevDay?.mcap
-    const percentChange = getPercentChange(totalMcapCurrent, totalMcapPrevDay)?.toFixed(2)
-    return { percentChange, totalMcapCurrent }
-  }, [chartData])
+  const { circulating, percentChange } = useMemo(() => {
+    const circulating = getPrevCirculatingFromChart(chartData, 0, 'totalCirculating', categoryToPegType[category])
+    const circulatingPrevDay = getPrevCirculatingFromChart(
+      chartData,
+      1,
+      'totalCirculating',
+      categoryToPegType[category]
+    )
+    const percentChange = getPercentChange(circulating, circulatingPrevDay)?.toFixed(2)
+    return { circulating, percentChange }
+  }, [chartData, category])
 
-  const mcapToDisplay = formattedNum(totalMcapCurrent, true)
+  const circulatingToDisplay = formattedNum(circulating, true)
 
-  let topToken = { symbol: 'USDT', mcap: 0 }
+  const topToken = { name: 'Tether', circulating: 0 }
   if (peggedTotals.length > 0) {
-    const topTokenData = peggedTotals[0]
-    topToken.symbol = topTokenData.symbol
-    topToken.mcap = topTokenData.mcap
+    topToken.name = peggedTotals[0]?.name
+    topToken.circulating = peggedTotals[0]?.circulating
   }
 
-  const dominance = getPeggedDominance(topToken, totalMcapCurrent)
+  const dominance = getPeggedDominance(topToken, circulating)
 
   const panels = (
     <>
@@ -164,8 +168,8 @@ function AllPeggedsPage({
             <TYPE.heading>Total {title}</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#4f8fea'}>
-              {mcapToDisplay}
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#6500bf'}>
+              {circulatingToDisplay}
             </TYPE.main>
           </RowBetween>
         </AutoColumn>
@@ -176,7 +180,7 @@ function AllPeggedsPage({
             <TYPE.heading>Change (24h)</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#fd3c99'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#cc00ff'}>
               {percentChange || 0}%
             </TYPE.main>
           </RowBetween>
@@ -185,10 +189,10 @@ function AllPeggedsPage({
       <Panel style={{ padding: '18px 25px', justifyContent: 'center' }}>
         <AutoColumn gap="4px">
           <RowBetween>
-            <TYPE.heading>{topToken.symbol} Dominance</TYPE.heading>
+            <TYPE.heading>{topToken.name} Dominance</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#46acb7'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#d800e6'}>
               {dominance}%
             </TYPE.main>
           </RowBetween>
@@ -207,7 +211,7 @@ function AllPeggedsPage({
         <div>
           <BreakpointPanels>
             <BreakpointPanelsColumn gap="10px">{panels}</BreakpointPanelsColumn>
-            {stackedDataset.length < 30 ? (
+            {stackedDataset.length === 0 ? (
               <PeggedChainPieChart data={chainsCirculatingValues} chainColor={chainColor} />
             ) : (
               <PeggedChainDominanceChart
