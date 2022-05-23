@@ -18,9 +18,9 @@ const theme = (darkMode, color) => ({
   textColor: darkMode ? color : 'black',
 
   panelColor: darkMode ? 'rgba(255, 255, 255, 0)' : 'rgba(255, 255, 255, 0)',
-  backgroundColor: darkMode ? '#212429' : '#445ed0',
+  backgroundColor: darkMode ? '#000' : '#6500bf',
 
-  uniswapPink: darkMode ? '#445ed0' : 'black',
+  uniswapPink: darkMode ? '#6500bf' : 'black',
 
   concreteGray: darkMode ? '#292C2F' : '#FAFAFA',
   inputBackground: darkMode ? '#1F1F1F' : '#FAFAFA',
@@ -37,9 +37,9 @@ const theme = (darkMode, color) => ({
   white: '#FFFFFF',
 
   // backgrounds / greys
-  bg1: darkMode ? '#212429' : '#FAFAFA',
+  bg1: darkMode ? '#000' : '#FAFAFA',
   bg2: darkMode ? '#2C2F36' : '#F7F8FA',
-  bg3: darkMode ? '#40444F' : '#EDEEF2',
+  bg3: darkMode ? '#6500bf' : '#EDEEF2',
   bg4: darkMode ? '#565A69' : '#CED0D9',
   bg5: darkMode ? '#565A69' : '#888D9B',
   bg6: darkMode ? '#000' : '#FFFFFF',
@@ -47,21 +47,21 @@ const theme = (darkMode, color) => ({
   //specialty colors
   modalBG: darkMode ? 'rgba(0,0,0,0.85)' : 'rgba(0,0,0,0.6)',
   advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.4)',
-  onlyLight: darkMode ? '#22242a' : 'transparent',
+  onlyLight: darkMode ? '#000000' : 'transparent',
   divider: darkMode ? 'rgba(43, 43, 43, 0.435)' : 'rgba(43, 43, 43, 0.035)',
 
   //primary colors
-  primary1: darkMode ? '#2172E5' : '#445ed0',
+  primary1: darkMode ? '#6500bf' : '#6500bf',
   primary2: darkMode ? '#3680E7' : '#FF8CC3',
   primary3: darkMode ? '#4D8FEA' : '#FF99C9',
   primary4: darkMode ? '#376bad70' : '#F6DDE8',
   primary5: darkMode ? '#153d6f70' : '#FDEAF1',
 
   // color text
-  primaryText1: darkMode ? '#6da8ff' : '#445ed0',
+  primaryText1: darkMode ? '#6da8ff' : '#6500bf',
 
   // secondary colors
-  secondary1: darkMode ? '#2172E5' : '#445ed0',
+  secondary1: darkMode ? '#6500bf' : '#6500bf',
   secondary2: darkMode ? '#17000b26' : '#F6DDE8',
   secondary3: darkMode ? '#17000b26' : '#FDEAF1',
 
@@ -72,9 +72,9 @@ const theme = (darkMode, color) => ({
   green1: '#27AE60',
   yellow1: '#FFE270',
   yellow2: '#F3841E',
-  link: '#2172E5',
+  link: '#6500bf',
   blue: '#2f80ed',
-  background: darkMode ? 'black' : `radial-gradient(50% 50% at 50% 50%, #445ed0 0%, #fff 0%)`,
+  background: darkMode ? 'black' : `radial-gradient(50% 50% at 50% 50%, #6500bf 0%, #fff 0%)`,
 
   // breakpoints
   bpSm: `${sm}px`,
@@ -92,7 +92,7 @@ const theme = (darkMode, color) => ({
   minLg: `@media screen and (min-width: ${lg}px)`,
   minXl: `@media screen and (min-width: ${xl}px)`,
 
-  breakpoints: [`${sm}px`, `${med}px`, `${lg}px`, `${xl}px`],
+  breakpoints: [`${sm}px`, `${med}px`, `${lg}px`, `${xl}px`]
 })
 
 const TextWrapper = styled(Text)`
@@ -130,7 +130,7 @@ export const TYPE = {
 
   pink(props) {
     return <TextWrapper fontWeight={props.faded ? 400 : 600} color={props.faded ? 'text1' : 'text1'} {...props} />
-  },
+  }
 }
 
 export const Header = styled.h1`
@@ -148,7 +148,7 @@ export const Hover = styled.div`
 
 export const Link = styled.a.attrs({
   target: '_blank',
-  rel: 'noopener noreferrer',
+  rel: 'noopener noreferrer'
 })`
   text-decoration: none;
   cursor: pointer;
@@ -176,9 +176,8 @@ export const ThemedBackground = styled.div`
   height: 200vh;
   mix-blend-mode: color;
   background: ${({ backgroundColor, theme }) =>
-    `radial-gradient(50% 50% at 50% 50%, ${
-      backgroundColor || transparentize(0.6, theme.primary1)
-    } 0%, rgba(255, 255, 255, 0) 100%)`};
+    `radial-gradient(50% 50% at 50% 50%, ${backgroundColor ||
+      transparentize(0.6, theme.primary1)} 0%, rgba(255, 255, 255, 0) 100%)`};
   position: absolute;
   top: 0px;
   left: 0px;
@@ -224,6 +223,8 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     width: 100%;
     height: 100%;
+    font-size: 14px;
+    background-color: ${({ theme }) => theme.bg6};
   }
 
   a {
@@ -235,40 +236,40 @@ export const GlobalStyle = createGlobalStyle`
   }
 
 
-  .three-line-legend {
-    width: 100%;
-    height: 70px;
-    position: absolute;
-    padding: 8px;
-    font-size: 12px;
-    color: #20262E;
-    background-color: rgba(255, 255, 255, 0.23);
-    text-align: left;
-    z-index: 10;
-    pointer-events: none;
-  }
+.three-line-legend {
+	width: 100%;
+	height: 70px;
+	position: absolute;
+	padding: 8px;
+	font-size: 12px;
+	color: #20262E;
+	background-color: rgba(255, 255, 255, 0.23);
+	text-align: left;
+	z-index: 10;
+  pointer-events: none;
+}
 
-  .three-line-legend-dark {
-    width: 100%;
-    height: 70px;
-    position: absolute;
-    padding: 8px;
-    font-size: 12px;
-    color: white;
-    background-color: rgba(255, 255, 255, 0.23);
-    text-align: left;
-    z-index: 10;
-    pointer-events: none;
-  }
+.three-line-legend-dark {
+	width: 100%;
+	height: 70px;
+	position: absolute;
+	padding: 8px;
+	font-size: 12px;
+	color: white;
+	background-color: rgba(255, 255, 255, 0.23);
+	text-align: left;
+	z-index: 10;
+  pointer-events: none;
+}
 
-  .tv-lightweight-charts{
+.tv-lightweight-charts{
+  width: 100% !important;
+
+
+  & > * {
     width: 100% !important;
-
-
-    & > * {
-      width: 100% !important;
-    }
   }
+}
 
 
   html {
@@ -278,19 +279,6 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  }
-
-
-  #__next {
-    font-size: 14px;
-    background-color: ${({ theme }) => theme.bg6};
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    width: 100%;
-
-    ${({ theme: { minLg } }) => minLg} {
-      flex-direction: row
-    }
+    height: 100%;
   }
 `
