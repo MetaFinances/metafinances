@@ -16,7 +16,7 @@ export async function getStaticProps({
     category,
     categories,
     stackedDataset,
-    peggedSymbol,
+    peggedName,
     pegType,
     chainsGroupbyParent,
   } = data.props
@@ -27,7 +27,7 @@ export async function getStaticProps({
       category,
       categories,
       stackedDataset,
-      peggedSymbol,
+      peggedName,
       pegType,
       chainsGroupbyParent,
     },
@@ -47,7 +47,7 @@ export async function getStaticPaths() {
 
 export default function PeggedAsset(props) {
   return (
-    <GeneralLayout title={`All Chains Pegged Asset - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`All Chains Pegged Asset - MetafiDashboard`} defaultSEO>
       <PeggedContainer {...props} />
     </GeneralLayout>
   )

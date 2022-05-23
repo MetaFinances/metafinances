@@ -30,13 +30,13 @@ export async function getStaticProps() {
     return acc
   }, [])
 
-  const chartData = await Promise.all(chainsUnique.map((chain) => getNFTChainChartData(chain)))
+  const chartData = await Promise.all(chainsUnique.map(chain => getNFTChainChartData(chain)))
 
   const daySum = {}
   const stackedDataset = Object.values(
     chartData.reduce((total, chain, i) => {
       const chainName = chainsUnique[i]
-      chain.forEach((dayTvl) => {
+      chain.forEach(dayTvl => {
         if (dayTvl.timestamp < 1596248105) return
         if (total[dayTvl.timestamp] === undefined) {
           total[dayTvl.timestamp] = { date: dayTvl.timestamp }
@@ -49,14 +49,8 @@ export async function getStaticProps() {
   )
 
   return {
-    props: {
-      chainData: chainData || null,
-      currentData: currentData || null,
-      chainsUnique: chainsUnique || null,
-      stackedDataset: stackedDataset || null,
-      daySum: daySum || null,
-    },
-    revalidate: revalidate(),
+    props: { chainData, currentData, chainsUnique, stackedDataset, daySum },
+    revalidate: revalidate()
   }
 }
 
@@ -74,7 +68,7 @@ const ChartsWrapper = styled(Box)`
 
 const ChainsView = ({ chainData, currentData, chainsUnique, stackedDataset, daySum }) => {
   const chainColor = useMemo(
-    () => Object.fromEntries([...chainsUnique, 'Other'].map((chain) => [chain, getRandomColor()])),
+    () => Object.fromEntries([...chainsUnique, 'Other'].map(chain => [chain, getRandomColor()])),
     [chainsUnique]
   )
 
@@ -98,7 +92,7 @@ const ChainsView = ({ chainData, currentData, chainsUnique, stackedDataset, dayS
         <NFTList
           data={chainData}
           iconUrl={chainIconUrl}
-          generateLink={(name) => `/nfts/chain/${name}`}
+          generateLink={name => `/nfts/chain/${name}`}
           columns={['chain', 'collections', 'dailyVolumeUSD', 'totalVolumeUSD']}
         />
       </FullWrapper>
@@ -108,7 +102,7 @@ const ChainsView = ({ chainData, currentData, chainsUnique, stackedDataset, dayS
 
 function Chains(props) {
   return (
-    <GeneralLayout title="DefiLlama - NFT Dashboard">
+    <GeneralLayout title="MetafiDashboard - NFT Dashboard">
       <SEO nftPage />
       <ChainsView {...props} />
     </GeneralLayout>

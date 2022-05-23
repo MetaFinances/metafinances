@@ -13,7 +13,7 @@ export async function getStaticProps() {
 
 export default function ApyHomePage(props) {
   return (
-    <GeneralLayout title={`Yield Rankings - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Yield Rankings - MetafiDashboard`} defaultSEO>
       <YieldPage {...props} />
     </GeneralLayout>
   )

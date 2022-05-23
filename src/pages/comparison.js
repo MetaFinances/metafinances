@@ -31,7 +31,7 @@ export default function Protocols({ protocolsMcapTvl }) {
   const { protocolA, protocolB } = router.query
 
   return (
-    <GeneralLayout title="Protocol Price Comparison - DefiLlama" defaultSEO>
+    <GeneralLayout title="Protocol Price Comparison - MetafiDashboard" defaultSEO>
       <ComparisonContainer protocolsMcapTvl={protocolsMcapTvl} protocolA={protocolA} protocolB={protocolB} />
     </GeneralLayout>
   )

@@ -9,27 +9,27 @@ function capitalizeFirstLetter(string) {
 
 export async function getStaticProps({
   params: {
-    category: [category, chain],
-  },
+    category: [category, chain]
+  }
 }) {
   const props = await getProtocolsPageData(category, chain)
 
   if (props.filteredProtocols.length === 0) {
     return {
-      notFound: true,
+      notFound: true
     }
   }
   return {
     props,
-    revalidate: revalidate(),
+    revalidate: revalidate()
   }
 }
 
 export async function getStaticPaths() {
   const res = await fetch(PROTOCOLS_API)
 
-  const paths = (await res.json()).protocolCategories.slice(0, 10).map((category) => ({
-    params: { category: [category.toLowerCase()] },
+  const paths = (await res.json()).protocolCategories.map(category => ({
+    params: { category: [category.toLowerCase()] }
   }))
 
   return { paths, fallback: 'blocking' }
@@ -37,7 +37,7 @@ export async function getStaticPaths() {
 
 export default function Protocols({ category, chains, filteredProtocols, chain }) {
   return (
-    <GeneralLayout title={`${capitalizeFirstLetter(category)} TVL Rankings - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`${capitalizeFirstLetter(category)} TVL Rankings - MetafiDashboard`} defaultSEO>
       <ProtocolList
         category={capitalizeFirstLetter(category)}
         chains={chains}

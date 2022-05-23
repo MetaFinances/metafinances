@@ -70,7 +70,7 @@ export default function Protocols({ langs, langsUnique, langsDaySum,
   langsUnique.forEach(l=>{colors[l]=getRandomColor()})
   console.log(colors)
   return (
-    <GeneralLayout title={`Languages - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Languages - MetafiDashboard`} defaultSEO>
       <PageWrapper>
       <FullWrapper>
         <Search />

@@ -1,7 +1,7 @@
 import { FullWrapper, PageWrapper } from 'components'
 import { CustomLink } from 'components/Link'
 import { GeneralLayout } from '../layout'
-import { getPeggedAssets, revalidate, getPeggedPrices } from '../utils/dataApi'
+import { getPeggedAssets, revalidate } from '../utils/dataApi'
 import { toK } from 'utils'
 import Table, { Index } from 'components/Table'
 import PageHeader from 'components/PageHeader'
@@ -9,22 +9,16 @@ import { capitalizeFirstLetter } from 'utils'
 
 export async function getStaticProps() {
   const peggedAssets = await getPeggedAssets()
-  const priceChart = await getPeggedPrices()
-  const currentPrices = priceChart[priceChart.length - 1] ?? null
+
   let categories = {}
   peggedAssets.peggedAssets.forEach((p) => {
     const pegType = p.pegType
-    const price = currentPrices.prices[p.gecko_id]
     const cat = p.category
     if (categories[cat] === undefined) {
       categories[cat] = { peggedAssets: 0, mcap: 0 }
     }
     categories[cat].peggedAssets++
-    if (price) {
-      categories[cat].mcap += p.circulating[pegType] * price
-    } else {
-      categories[cat].mcap += p.circulating[pegType]
-    }
+    categories[cat].mcap += p.circulating[pegType]  // this should be replaced by mcap
   })
 
   categories = Object.entries(categories).map(([name, details]) => ({
@@ -79,7 +73,7 @@ const columns = [
 
 export default function PeggedAssets({ categories }) {
   return (
-    <GeneralLayout title={`Categories - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Categories - MetafiDashboard`} defaultSEO>
       <PageWrapper>
         <FullWrapper>
           <PageHeader title="Pegged Asset Categories" />

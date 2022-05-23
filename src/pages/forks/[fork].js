@@ -33,7 +33,7 @@ export async function getStaticPaths() {
 
   const forksList = Object.keys(forks)
 
-  const paths = forksList.slice(0, 10).map((fork) => {
+  const paths = forksList.map((fork) => {
     return {
       params: { fork },
     }
@@ -78,7 +78,7 @@ const PageView = ({ chartData, tokenLinks, token, filteredProtocols, parentToken
             <TYPE.heading>Total Value Locked</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#4f8fea'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#6500bf'}>
               {tvl}
             </TYPE.main>
           </RowBetween>
@@ -90,7 +90,7 @@ const PageView = ({ chartData, tokenLinks, token, filteredProtocols, parentToken
             <TYPE.heading>Change (24h)</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#fd3c99'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#cc00ff'}>
               {percentChange || 0}%
             </TYPE.main>
           </RowBetween>
@@ -105,7 +105,7 @@ const PageView = ({ chartData, tokenLinks, token, filteredProtocols, parentToken
             fontSize={'33px'}
             lineHeight={'39px'}
             fontWeight={600}
-            color={'#46acb7'}
+            color={'#d800e6'}
             style={{ marginTop: '4px', marginBottom: '-6px' }}
           >
             {dominance}%
@@ -145,7 +145,7 @@ const PageView = ({ chartData, tokenLinks, token, filteredProtocols, parentToken
 
 export default function Forks(props) {
   return (
-    <GeneralLayout title={`Forks - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Forks - MetafiDashboard`} defaultSEO>
       <PageView {...props} />
     </GeneralLayout>
   )

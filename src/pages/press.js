@@ -71,7 +71,7 @@ const PanelWrapper = styled(Box)`
 
 function PressPage() {
   return (
-    <GeneralLayout title="DefiLlama - DeFi Dashboard" defaultSEO>
+    <GeneralLayout title="MetafiDashboard - DeFi Platform" defaultSEO>
       <PageWrapper>
         <FullWrapper>
           <RowBetween>
@@ -82,11 +82,11 @@ function PressPage() {
               <TYPE.heading>Mission</TYPE.heading>
               <Divider />
               <TYPE.main>
-                DefiLlama is the largest TVL aggregator for DeFi (Decentralized Finance). Our data is fully open-source
-                and maintained by a team of passionate individuals and contributors from hundreds of protocols.
+               MetafiDashboard-Defi dashboard is the largest TVL aggregator for Defi (Decentralized Finance). Our Analytics data is 99.9% accurate which is
+                 built and maintained by the community, for the community.
               </TYPE.main>
-              <TYPE.main>Our focus is on accurate data and transparent methodology.</TYPE.main>
-              <TYPE.main>We track over 800 DeFi protocols from over 80 different blockchains.</TYPE.main>
+              <TYPE.main>Our focus is on free, accurate data and transparent methodology.</TYPE.main>
+              <TYPE.main>We track over 659 DeFi protocols from over 70 different blockchains.</TYPE.main>
             </DashGrid>
           </Panel>
           <Panel style={{ marginTop: '6px' }}>
@@ -95,11 +95,11 @@ function PressPage() {
               <Divider />
               <TYPE.main>
                 If you are working on a story using our data or need to get in touch, contact:{' '}
-                <Link href="mailto:defillama@protonmail.com">llamapress@protonmail.com</Link>
+                <Link href="mailto:metafinances.io@gmail.com">metafinances.io@gmail.com</Link>
               </TYPE.main>
               <Divider />
               <TYPE.main>
-                DeFiLlama is used across a large number of media organisations and financial institutions.
+                MetafiDashboard- Defi dashboard is used across a large number of media organisations and financial institutions.
               </TYPE.main>
               <PanelWrapper mt={[0, 0, '1rem']} style={{ gridTemplateRows: 'auto' }}>
                 {pressList.map((imageFilename) => (
@@ -110,10 +110,10 @@ function PressPage() {
           </Panel>
           <Panel style={{ marginTop: '6px' }}>
             <DashGrid center={true} style={{ height: 'fit-content', padding: '0 0 1rem 0' }}>
-              <TYPE.heading>Branding Assets</TYPE.heading>
+              <TYPE.heading>Vision</TYPE.heading>
               <Divider />
               <TYPE.main>
-                You can download all our branding assets from <Link href="/defillama-press-kit.zip">here</Link>.
+                To become the hub of Blockchain analytics as a whole..
               </TYPE.main>
             </DashGrid>
           </Panel>

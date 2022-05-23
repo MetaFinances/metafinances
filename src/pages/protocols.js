@@ -2,7 +2,7 @@ import ProtocolList from '../components/ProtocolList'
 import { GeneralLayout } from '../layout'
 import { getSimpleProtocolsPageData, revalidate } from '../utils/dataApi'
 
-export async function getStaticProps() {
+export async function getStaticProps({ params }) {
   const { protocols, chains } = await getSimpleProtocolsPageData()
   return {
     props: {
@@ -15,7 +15,7 @@ export async function getStaticProps() {
 
 export default function Protocols({ chainsSet, protocols }) {
   return (
-    <GeneralLayout title={`TVL Rankings - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`TVL Rankings - MetafiDashboard`} defaultSEO>
       <ProtocolList chainsSet={chainsSet} filteredProtocols={protocols} showChainList={false} />
     </GeneralLayout>
   )

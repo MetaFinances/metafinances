@@ -33,7 +33,7 @@ export async function getStaticPaths() {
 
   const oraclesList = Object.keys(oracles)
 
-  const paths = oraclesList.slice(0, 10).map((oracle) => {
+  const paths = oraclesList.map((oracle) => {
     return {
       params: { oracle },
     }
@@ -77,7 +77,7 @@ const PageView = ({ chartData, tokenLinks, token, filteredProtocols }) => {
             <TYPE.heading>Total Value Secured (USD)</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#4f8fea'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#6500bf'}>
               {tvs}
             </TYPE.main>
           </RowBetween>
@@ -89,7 +89,7 @@ const PageView = ({ chartData, tokenLinks, token, filteredProtocols }) => {
             <TYPE.heading>Change (24h)</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#fd3c99'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#cc00ff'}>
               {percentChange || 0}%
             </TYPE.main>
           </RowBetween>
@@ -104,7 +104,7 @@ const PageView = ({ chartData, tokenLinks, token, filteredProtocols }) => {
             fontSize={'33px'}
             lineHeight={'39px'}
             fontWeight={600}
-            color={'#46acb7'}
+            color={'#d800e6'}
             style={{ marginTop: '4px', marginBottom: '-6px' }}
           >
             {dominance}%
@@ -144,7 +144,7 @@ const PageView = ({ chartData, tokenLinks, token, filteredProtocols }) => {
 
 export default function Oracles(props) {
   return (
-    <GeneralLayout title={`Oracles - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Oracles - MetafiDashboard`} defaultSEO>
       <PageView {...props} />
     </GeneralLayout>
   )

@@ -150,7 +150,7 @@ const YieldPage = () => {
 
 export default function YieldPoolPage(props) {
   return (
-    <GeneralLayout title={`Yield Chart - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Yield Chart -MetafiDashboard `} defaultSEO>
       <YieldPage {...props} />
     </GeneralLayout>
   )

@@ -124,7 +124,7 @@ const PageView = ({ chartData, tokensProtocols, tokens, tokenLinks }) => {
 
 export default function Oracles(props) {
   return (
-    <GeneralLayout title={`Oracles - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Oracles - MetafiDashboard`} defaultSEO>
       <PageView {...props} />
     </GeneralLayout>
   )

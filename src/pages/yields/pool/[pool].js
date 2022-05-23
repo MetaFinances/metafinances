@@ -99,7 +99,7 @@ const PageView = () => {
             <TYPE.heading>APY</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#fd3c99'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#cc00ff'}>
               {apy}%
             </TYPE.main>
           </RowBetween>
@@ -111,7 +111,7 @@ const PageView = () => {
             <TYPE.heading>Total Value Locked</TYPE.heading>
           </RowBetween>
           <RowBetween style={{ marginTop: '4px', marginBottom: '-6px' }} align="flex-end">
-            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#4f8fea'}>
+            <TYPE.main fontSize={'33px'} lineHeight={'39px'} fontWeight={600} color={'#6500bf'}>
               ${tvlUsd}
             </TYPE.main>
           </RowBetween>
@@ -126,7 +126,7 @@ const PageView = () => {
             fontSize={'15px'}
             lineHeight={'20px'}
             fontWeight={600}
-            color={'#46acb7'}
+            color={'#d800e6'}
             style={{ marginTop: '4px', marginBottom: '-6px' }}
           >
             {probability !== null
@@ -229,7 +229,7 @@ const PageView = () => {
 
 export default function YieldPoolPage(props) {
   return (
-    <GeneralLayout title={`Yield Chart - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Yield Chart - MetafiDashboard`} defaultSEO>
       <PageView {...props} />
     </GeneralLayout>
   )

@@ -99,7 +99,7 @@ const columns = [
 
 export default function Protocols({ categories }) {
   return (
-    <GeneralLayout title={`Categories - DefiLlama`} defaultSEO>
+    <GeneralLayout title={`Categories - MetafiDashboard`} defaultSEO>
       <PageWrapper>
         <FullWrapper>
           <PageHeader title="Protocol Categories" />

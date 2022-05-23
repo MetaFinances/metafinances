@@ -32,7 +32,7 @@ export async function getStaticProps({
 export async function getStaticPaths() {
   const res = await getProtocols()
 
-  const paths = res.protocols.slice(0, 30).map(({ name }) => ({
+  const paths = res.protocols.map(({ name }) => ({
     params: { protocol: [standardizeProtocolName(name)] },
   }))
 
@@ -41,7 +41,7 @@ export async function getStaticPaths() {
 
 export default function Protocols({ denomination, selectedChain, protocol, protocolData }) {
   return (
-    <GeneralLayout title={`${protocolData.name}: TVL and stats - DefiLlama`}>
+    <GeneralLayout title={`${protocolData.name}: TVL and stats - MetafiDashboard`}>
       <ProtocolContainer
         protocol={protocol}
         protocolData={protocolData}

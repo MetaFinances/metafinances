@@ -1,4 +1,5 @@
 import { FullWrapper, PageWrapper } from 'components'
+import { CustomLink } from 'components/Link'
 import { GeneralLayout } from '../../layout'
 import { getYieldPageData, revalidate } from '../../utils/dataApi'
 import { toK } from 'utils'
@@ -60,7 +61,7 @@ const columns = [
 
 export default function Protocols({ projects }) {
   return (
-    <GeneralLayout title={`Projects - DefiLlama Yield`} defaultSEO>
+    <GeneralLayout title={`Projects - MetafiDashboard Yield`} defaultSEO>
       <PageWrapper>
         <FullWrapper>
           <PageHeader title="Projects" />

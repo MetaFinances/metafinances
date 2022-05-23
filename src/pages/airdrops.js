@@ -51,10 +51,10 @@ const columns = columnsToShow('protocolName', 'chains', '1dChange', '7dChange', 
 export default function Protocols({ protocols }) {
   const data = useCalcStakePool2Tvl(protocols)
   return (
-    <GeneralLayout title={`Airdroppable protocols - Defi Llama`} defaultSEO>
+    <GeneralLayout title={`Airdroppable protocols -MetafiDashboard `} defaultSEO>
       <PageWrapper>
         <FullWrapper>
-          <PageHeader title="Tokenless protocols that may airdrop 🧑‍🌾" />
+          <PageHeader title="Protocols that may airdrop" />
           <TableWrapper data={data} columns={columns} />
         </FullWrapper>
       </PageWrapper>
