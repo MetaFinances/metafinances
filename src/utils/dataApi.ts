@@ -19,7 +19,6 @@ import {
   PEGGED_API,
   PEGGEDS_API,
   PEGGEDCHART_API,
-  PEGGEDPRICES_API,
 } from '../constants/index'
 import { getPercentChange, getPrevTvlFromChart, getPrevCirculatingFromChart, standardizeProtocolName } from 'utils'
 
@@ -75,10 +74,8 @@ export const peggedPropertiesToKeep = [
   'circulating',
   'minted',
   'unreleased',
-  'mcap',
   'name',
   'symbol',
-  'gecko_id',
   'chains',
   'price',
   'change_1d',
@@ -186,8 +183,6 @@ const formatPeggedAssetsData = ({
   chain = '',
   category = '',
   peggedAssets = [],
-  chartDataByPeggedAsset = [],
-  peggedNameToIndexObj = {},
   peggedAssetProps = [...peggedPropertiesToKeep],
 }) => {
   let filteredPeggedAssets = [...peggedAssets]
@@ -205,33 +200,26 @@ const formatPeggedAssetsData = ({
   filteredPeggedAssets = filteredPeggedAssets.map((pegged) => {
     let pegType = pegged.pegType
     if (chain) {
-      const chainCirculating = pegged.chainCirculating[chain]
-      pegged.circulating = chainCirculating ? chainCirculating.current[pegType] ?? 0 : 0
-      pegged.circulatingPrevDay = chainCirculating ? chainCirculating.circulatingPrevDay[pegType] ?? null : null
-      pegged.circulatingPrevWeek = chainCirculating ? chainCirculating.circulatingPrevWeek[pegType] ?? null : null
-      pegged.circulatingPrevMonth = chainCirculating ? chainCirculating.circulatingPrevMonth[pegType] ?? null : null
+      const chainCirculating = pegged.chainCirculating[chain];
+      pegged.circulating = chainCirculating ? (chainCirculating.current[pegType] ?? 0) : 0
+      pegged.circulatingPrevDay = chainCirculating ? (chainCirculating.circulatingPrevDay[pegType] ?? null) : null
+      pegged.circulatingPrevWeek = chainCirculating ? (chainCirculating.circulatingPrevWeek[pegType] ?? null) : null
+      pegged.circulatingPrevMonth = chainCirculating ? (chainCirculating.circulatingPrevMonth[pegType] ?? null) : null
     } else {
       pegged.circulating = pegged.circulating[pegType] ?? 0
       pegged.circulatingPrevDay = pegged.circulatingPrevDay[pegType] ?? null
       pegged.circulatingPrevWeek = pegged.circulatingPrevWeek[pegType] ?? null
       pegged.circulatingPrevMonth = pegged.circulatingPrevMonth[pegType] ?? null
     }
-    const chartIndex = peggedNameToIndexObj[pegged.symbol]
-    const chart = chartDataByPeggedAsset[chartIndex] ?? null
-
-    pegged.mcap = chart?.[chart.length - 1]?.mcap ?? null
-    const mcapPrevDay = chart?.[chart.length - 1 - 1]?.mcap ?? null
-    const mcapPrevWeek = chart?.[chart.length - 1 - 7]?.mcap ?? null
-    const mcapPrevMonth = chart?.[chart.length - 1 - 30]?.mcap ?? null
-    pegged.change_1d = getPercentChange(pegged.mcap, mcapPrevDay)
-    pegged.change_7d = getPercentChange(pegged.mcap, mcapPrevWeek)
-    pegged.change_1m = getPercentChange(pegged.mcap, mcapPrevMonth)
+    pegged.change_1d = getPercentChange(pegged.circulating, pegged.circulatingPrevDay)
+    pegged.change_7d = getPercentChange(pegged.circulating, pegged.circulatingPrevWeek)
+    pegged.change_1m = getPercentChange(pegged.circulating, pegged.circulatingPrevMonth)
 
     return keepNeededProperties(pegged, peggedAssetProps)
   })
 
   if (chain) {
-    filteredPeggedAssets = filteredPeggedAssets.sort((a, b) => b.mcap - a.mcap)
+    filteredPeggedAssets = filteredPeggedAssets.sort((a, b) => b.circulating - a.circulating)
   }
 
   return filteredPeggedAssets
@@ -279,38 +267,33 @@ export async function getPeggedsPageData(category, chain) {
 
   let chartDataByPeggedAsset = []
   let peggedAssetNames: string[] = []
-  let peggedNameToIndexObj: object = {}
-  chartDataByPeggedAsset = await Promise.all(
-    peggedAssets.map(async (elem, i) => {
-      peggedAssetNames.push(elem.symbol)  // fix
-      peggedNameToIndexObj[elem.symbol] = i
-      for (let i = 0; i < 5; i++) {
-        try {
-          if (!chain) {
+  if (!chain) {
+    chartDataByPeggedAsset = await Promise.all(
+      peggedAssets.map(async (elem) => {
+        peggedAssetNames.push(elem.name)
+        for (let i = 0; i < 5; i++) {
+          try {
             return await fetch(`${PEGGEDCHART_API}/?peggedAsset=${elem.gecko_id}`).then((resp) => resp.json())
-          }
-          return await fetch(`${PEGGEDCHART_API}/${chain}?peggedAsset=${elem.gecko_id}`).then((resp) => resp.json())
-        } catch (e) {}
-      }
-      throw new Error(`${CHART_API}/${elem} is broken`)
-    })
-  )
+          } catch (e) {}
+        }
+        throw new Error(`${CHART_API}/${elem} is broken`)
+      })
+    )
+  }
 
   const pegType = categoryToPegType[category]
   const stackedDataset = Object.entries(
     chartDataByPeggedAsset.reduce((total: IStackedDataset, charts, i) => {
       charts.forEach((chart) => {
         const peggedName = peggedAssetNames[i]
-        const circulating = chart.mcap // should rename this variable; useCalcGroupExtraPeggedByDay accesses it
+        const circulating = chart.totalCirculating[pegType]
         const date = chart.date
         if (date < 1596248105) return
-        if (circulating !== null) {
-          if (total[date] == undefined) {
-            total[date] = {}
-          }
-          const b = total[date][peggedName]
-          total[date][peggedName] = { ...b, circulating: circulating ?? 0 }
+        if (total[date] === undefined) {
+          total[date] = {}
         }
+        const b = total[date][peggedName]
+        total[date][peggedName] = { ...b, circulating: circulating ?? 0 }
       })
       return total
     }, {})
@@ -333,13 +316,7 @@ export async function getPeggedsPageData(category, chain) {
     })
   })
 
-  const filteredPeggedAssets = formatPeggedAssetsData({
-    category,
-    peggedAssets,
-    chartDataByPeggedAsset,
-    peggedNameToIndexObj,
-    chain,
-  })
+  let filteredPeggedAssets = formatPeggedAssetsData({ category, peggedAssets, chain })
 
   return {
     peggedcategory: category,
@@ -580,8 +557,6 @@ export const getPeggedAssets = () =>
       chains,
     }))
 
-export const getPeggedPrices = () => fetch(PEGGEDPRICES_API).then((r) => r.json())
-
 export const getChainsPageData = async (category: string) => {
   const [res, { chainCoingeckoIds }] = await Promise.all(
     [PROTOCOLS_API, CONFIG_API].map((apiEndpoint) => fetch(apiEndpoint).then((r) => r.json()))
@@ -792,7 +767,7 @@ export const getPeggedChainsPageData = async (category: string, peggedasset: str
       return res.chainBalances[elem].tokens
     })
   )
-  const peggedSymbol = res.symbol
+  const peggedName = res.name;
   const pegType = res.pegType
   const chainCirculatings = chainsUnique
     .map((chainName, i) => {
@@ -864,7 +839,7 @@ export const getPeggedChainsPageData = async (category: string, peggedasset: str
       category,
       categories,
       stackedDataset,
-      peggedSymbol,
+      peggedName,
       pegType,
       chainsGroupbyParent,
     },
