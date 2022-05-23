@@ -4,7 +4,7 @@ import { Repeat } from 'react-feather'
 import { transparentize } from 'polished'
 import styled from 'styled-components'
 
-import { PageWrapper, FullWrapper } from 'components'
+import { PageWrapper, ContentWrapper } from 'components'
 import Column from 'components/Column'
 import { BasicLink } from 'components/Link'
 import Loader from 'components/LocalLoader'
@@ -72,9 +72,9 @@ const PriceResultPanel = styled(Panel)`
   width: auto;
 `
 
-const protocolAColor = '#4f8fea'
-const protocolBColor = '#fd3c99'
-const backgroundColor = '#2172E5'
+const protocolAColor = '#6500bf'
+const protocolBColor = '#cc00ff'
+const backgroundColor = '#6500bf'
 
 // assuming price is 0 is not valid
 const validTokenData = (tokenData) => !!tokenData?.price && !!tokenData?.name
@@ -223,7 +223,7 @@ function ComparisonPage({ protocolA: protocolARouteParam, protocolB: protocolBRo
   return (
     <PageWrapper>
       <ThemedBackground backgroundColor={transparentize(0.6, backgroundColor)} />
-      <FullWrapper>
+      <ContentWrapper>
         <RowBetween>
           <TYPE.largeHeader fontSize={below400 ? 16 : 24} style={{ width: '100%', textAlign: 'center' }}>
             Calculate the price of <TokenColoredText color={protocolAColor}>Protocol A</TokenColoredText>
@@ -281,7 +281,7 @@ function ComparisonPage({ protocolA: protocolARouteParam, protocolB: protocolBRo
             </Column>
           </PriceResultPanel>
         )}
-      </FullWrapper>
+      </ContentWrapper>
     </PageWrapper>
   )
 }

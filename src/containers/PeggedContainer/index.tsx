@@ -7,13 +7,12 @@ import { ButtonDark } from 'components/ButtonStyled'
 import { RowBetween } from 'components/Row'
 import Search from 'components/Search'
 import { PeggedChainPieChart, PeggedChainDominanceChart } from 'components/Charts'
-import { AllPeggedOptions } from 'components/SettingsModal'
+import { AllPeggedOptions, AllGroupOptions } from 'components/SettingsModal'
 import { CustomLink } from 'components/Link'
 import { columnsToShow, FullTable, NamePegged, isOfTypePeggedCategory } from 'components/Table'
 import { toNiceCsvDate, getRandomColor, formattedNum, download } from 'utils'
 import { useCalcGroupExtraPeggedByDay, useCalcCirculating, useGroupChainsPegged } from 'hooks/data'
 import Filters, { FiltersWrapper } from 'components/Filters'
-import { PeggedAssetOptions } from 'components/Select'
 
 const ChartsWrapper = styled(Box)`
   display: flex;
@@ -32,16 +31,6 @@ const RowWrapper = styled(RowBetween)`
   flex-wrap: wrap;
   @media (max-width: 680px) {
     gap: 16px;
-  }
-`
-
-const AssetFilters = styled.div`
-  margin: 12px 0 16px;
-  & > h2 {
-    margin: 0 2px 8px;
-    font-weight: 600;
-    font-size: 0.825rem;
-    color: ${({ theme }) => theme.text1};
   }
 `
 
@@ -65,7 +54,7 @@ export default function PeggedContainer({
   category,
   categories,
   stackedDataset,
-  peggedSymbol,
+  peggedName,
   pegType,
   chainsGroupbyParent,
 }) {
@@ -154,31 +143,24 @@ export default function PeggedContainer({
     <PageWrapper>
       <FullWrapper>
         <Search />
-
         <AllPeggedOptions style={{ display: 'flex', justifyContent: 'center' }} />
-
+        <AllGroupOptions style={{ display: 'flex', justifyContent: 'center' }} />
         <RowWrapper>
-          <Header>{Capitalize(peggedSymbol)} Total Circulating All Chains</Header>
+          <Header>{Capitalize(peggedName)} Total Circulating All Chains</Header>
           <ButtonDark onClick={downloadCsv}>Download all data in .csv</ButtonDark>
         </RowWrapper>
-
         <ChartsWrapper>
           <PeggedChainPieChart data={chainsCirculatingValues} chainColor={chainColor} />
           <PeggedChainDominanceChart
             stackOffset="expand"
             formatPercent={true}
             stackedDataset={stackedData}
-            asset={peggedSymbol}
+            asset={peggedName}
             chainsUnique={chainsUnique}
             chainColor={chainColor}
             daySum={daySum}
           />
         </ChartsWrapper>
-
-        <AssetFilters>
-          <h2>Filters</h2>
-          <PeggedAssetOptions label="Filters" />
-        </AssetFilters>
 
         <FiltersWrapper>
           <Filters filterOptions={categories} activeLabel={category} />
