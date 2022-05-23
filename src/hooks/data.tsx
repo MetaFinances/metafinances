@@ -55,24 +55,17 @@ interface GroupChainPegged extends IPegged {
 
 interface IPegged {
   circulating: number
-  minted: number
   unreleased: number
-  mcap: number
-  name: string
-  symbol: string
-  gecko_id: string
-  price: number
   change_1d: number | null
   change_7d: number | null
   change_1m: number | null
-  circulatingPrevDay: number
-  circulatingPrevWeek: number
-  circulatingPrevMonth: number
   bridgeInfo: {
     bridge: string
     link?: string
   }
   bridgedAmount: number | string
+  name: string
+  symbol: string
 }
 
 // TODO update types in localstorage file and refer them here
@@ -414,7 +407,7 @@ export const useCalcCirculating = (filteredPeggedAssets: IPegged[], defaultSorti
     })
 
     if (defaultSortingColumn === undefined) {
-      return updatedPeggedAssets.sort((a, b) => b.mcap - a.mcap)
+      return updatedPeggedAssets.sort((a, b) => b.circulating - a.circulating)
     } else {
       return updatedPeggedAssets.sort((a, b) => {
         if (dir === 'asc') {
